@@ -3,6 +3,7 @@ package sideeffect.project.config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +20,7 @@ import sideeffect.project.security.LoginSuccessHandler;
 import sideeffect.project.security.RefreshTokenProvider;
 import sideeffect.project.security.SecurityExceptionHandlerFilter;
 
+@Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Slf4j
