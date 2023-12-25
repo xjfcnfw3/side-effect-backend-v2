@@ -1,8 +1,8 @@
 package sideeffect.project.controller;
 
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.List;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -23,9 +23,9 @@ import sideeffect.project.common.annotation.ValidImageFile;
 import sideeffect.project.common.exception.BaseException;
 import sideeffect.project.common.exception.ErrorCode;
 import sideeffect.project.domain.user.User;
+import sideeffect.project.dto.freeboard.DetailedFreeBoardResponse;
 import sideeffect.project.dto.freeboard.FreeBoardKeyWordRequest;
 import sideeffect.project.dto.freeboard.FreeBoardRequest;
-import sideeffect.project.dto.freeboard.DetailedFreeBoardResponse;
 import sideeffect.project.dto.freeboard.FreeBoardResponse;
 import sideeffect.project.dto.freeboard.FreeBoardScrollRequest;
 import sideeffect.project.dto.freeboard.FreeBoardScrollResponse;
@@ -43,14 +43,14 @@ public class FreeBoardController {
     private final FreeBoardService freeBoardService;
 
     @GetMapping("/{id}")
-    public DetailedFreeBoardResponse findBoard(@PathVariable Long id, @LoginUser User user) {
+    public DetailedFreeBoardResponse findBoard(@PathVariable(name = "id") Long id, @LoginUser User user) {
         return freeBoardService.findBoard(id, user);
     }
 
     @GetMapping("/scroll")
-    public FreeBoardScrollResponse scrollBoard(@RequestParam(defaultValue = "-1") Long lastId,
-        @RequestParam(required = false) Integer size,
-        @RequestParam(required = false) String keyword,
+    public FreeBoardScrollResponse scrollBoard(@RequestParam(defaultValue = "-1", name = "lastId") Long lastId,
+        @RequestParam(required = false, name = "size") Integer size,
+        @RequestParam(required = false, name = "keyword") String keyword,
         @RequestParam(required = false, name = "filter", defaultValue = "LATEST") OrderType orderType,
         @LoginUser User user) {
         if (keyword == null) {
