@@ -29,7 +29,7 @@ public class ApplicantController {
     @GetMapping("list/{boardId}")
     public Map<String, ApplicantPositionResponse> findApplicants(
             @LoginUser User user,
-            @PathVariable Long boardId,
+            @PathVariable(name = "boardId") Long boardId,
             @RequestParam(value = "status") ApplicantStatus status
     ) {
         return applicantService.findApplicants(user.getId(), boardId, status);
