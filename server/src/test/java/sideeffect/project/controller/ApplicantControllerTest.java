@@ -190,10 +190,8 @@ class ApplicantControllerTest {
                                                         headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer + 토큰")
                                                 )
                                                 .pathParameters(
-                                                    parameterWithName("id").description("지원할 포지션 아이디")
-                                                )
-                                                .requestParameters(
-                                                    parameterWithName("status").description("지원 상태")
+                                                    parameterWithName("id").description("지원할 포지션 아이디"),
+                                                        parameterWithName("status").description("지원 상태")
                                                 )
                                                 .responseFields(
                                                     fieldWithPath("프론트엔드.applicants[]").type(JsonFieldType.ARRAY).description("프론트엔드 지원 리스트"),

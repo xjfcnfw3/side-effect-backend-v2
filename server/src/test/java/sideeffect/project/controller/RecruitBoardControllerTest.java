@@ -195,11 +195,11 @@ class RecruitBoardControllerTest {
                                 ResourceSnippetParameters.builder()
                                         .tag("모집게시판 API")
                                         .description("모집게시판을 스크롤 조회한다.")
-                                        .requestParameters(
-                                                parameterWithName("size").description("응답 받을 게시글 수"),
-                                                parameterWithName("keyword").description("검색어(제목 + 내용)").optional(),
-                                                parameterWithName("stackType").description("기술 스택 포함 검색").optional(),
-                                                parameterWithName("lastId").description("이전 응답에서 가장 작은 ID 값, 없으면 첫 페이지").optional()
+                                        .requestFields(
+                                                fieldWithPath("size").description("응답 받을 게시글 수"),
+                                                fieldWithPath("keyword").description("검색어(제목 + 내용)").optional(),
+                                                fieldWithPath("stackType").description("기술 스택 포함 검색").optional(),
+                                                fieldWithPath("lastId").description("이전 응답에서 가장 작은 ID 값, 없으면 첫 페이지").optional()
                                         )
                                         .responseFields(
                                             fieldWithPath("recruitBoards[].id").type(JsonFieldType.NUMBER).description("게시글 아이디"),

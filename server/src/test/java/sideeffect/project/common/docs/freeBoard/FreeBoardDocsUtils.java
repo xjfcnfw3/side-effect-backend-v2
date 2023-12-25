@@ -49,11 +49,11 @@ public final class FreeBoardDocsUtils {
                 .tag("자랑게시판 API")
                 .description("자랑 게시판을 스크롤 조회한다.")
                 .requestHeaders(headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer + 토큰").optional())
-                .requestParameters(
-                    parameterWithName("lastId").type(SimpleType.NUMBER).description("이전스크롤 마미작 게시판 Id").optional(),
-                    parameterWithName("size").type(SimpleType.INTEGER).description("스크롤 게시판 개수").optional(),
-                    parameterWithName("keyword").type(SimpleType.STRING).description("검색 키워드").optional(),
-                    parameterWithName("filter").type(SimpleType.STRING)
+                .pathParameters(
+                        parameterWithName("lastId").type(SimpleType.NUMBER).description("이전스크롤 마미작 게시판 Id").optional(),
+                        parameterWithName("size").type(SimpleType.INTEGER).description("스크롤 게시판 개수").optional(),
+                        parameterWithName("keyword").type(SimpleType.STRING).description("검색 키워드").optional(),
+                        parameterWithName("filter").type(SimpleType.STRING)
                         .description("기준 정렬 (comment : 댓글순, latest : 최신순, like : 좋아요 순, views : 조회순,"
                             + " 입력이 없으면 최신순)").optional())
                 .responseFields(
