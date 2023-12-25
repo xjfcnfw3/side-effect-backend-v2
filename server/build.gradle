@@ -1,7 +1,7 @@
 buildscript {
 	ext {
 		queryDslVersion = "5.0.0"
-		restdocsApiSpecVersion = '0.16.2'
+		restdocsApiSpecVersion = '0.17.1'
 	}
 }
 
@@ -9,7 +9,6 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.0'
-//	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 	id "org.asciidoctor.jvm.convert" version "3.3.2"
 	id 'com.epages.restdocs-api-spec' version "${restdocsApiSpecVersion}"
 	id 'org.hidetake.swagger.generator' version '2.18.2'
@@ -40,7 +39,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation group: 'org.json', name: 'json', version: '20180813'
-	implementation "io.jsonwebtoken:jjwt:0.9.1"
+
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'com.sun.xml.bind:jaxb-impl:4.0.1'
+	implementation 'com.sun.xml.bind:jaxb-core:4.0.1'
+	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
