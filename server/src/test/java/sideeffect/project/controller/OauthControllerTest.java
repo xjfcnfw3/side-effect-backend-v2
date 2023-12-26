@@ -58,6 +58,7 @@ class OauthControllerTest extends ControllerTestDocument {
     void login() throws Exception {
         String providerType = "google";
         String token = UUID.randomUUID().toString();
+        String accessToken = generateAccessToken();
         RefreshToken refreshToken = RefreshToken.builder()
             .refreshToken(UUID.randomUUID().toString())
             .userId(user.getId())
@@ -65,7 +66,7 @@ class OauthControllerTest extends ControllerTestDocument {
 
         given(oauthService.login(any(), any())).willReturn(user);
         given(refreshTokenProvider.createRefreshToken(any())).willReturn(refreshToken);
-        given(refreshTokenProvider.issueAccessToken(any())).willReturn(generateAccessToken());
+        given(refreshTokenProvider.issueAccessToken(any())).willReturn(accessToken);
 
         mvc.perform(RestDocumentationRequestBuilders.post("/api/social/login")
                 .header("providerType", providerType)
