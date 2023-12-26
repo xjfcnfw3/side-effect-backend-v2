@@ -32,7 +32,7 @@ public class RecruitBoardController {
     private final RecruitLikeService recruitLikeService;
 
     @GetMapping("/{id}")
-    public DetailedRecruitBoardResponse findRecruitBoard(@PathVariable Long id, @LoginUser User user) {
+    public DetailedRecruitBoardResponse findRecruitBoard(@PathVariable("id") Long id, @LoginUser User user) {
         return recruitBoardService.findRecruitBoard(id, user);
     }
 
