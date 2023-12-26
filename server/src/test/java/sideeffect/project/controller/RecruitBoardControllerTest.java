@@ -1,6 +1,7 @@
 package sideeffect.project.controller;
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
+import com.epages.restdocs.apispec.ResourceDocumentation;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,6 +53,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -190,16 +192,17 @@ class RecruitBoardControllerTest {
                 .andExpect(jsonPath("$.recruitBoards.length()").value(2))
                 .andExpect(jsonPath("$.lastId").value(5L))
                 .andExpect(jsonPath("$.hasNext").value(false))
+                .andDo(print())
                 .andDo(MockMvcRestDocumentationWrapper.document("recruit-board/scroll",
                         resource(
                                 ResourceSnippetParameters.builder()
                                         .tag("모집게시판 API")
                                         .description("모집게시판을 스크롤 조회한다.")
-                                        .requestFields(
-                                                fieldWithPath("size").description("응답 받을 게시글 수"),
-                                                fieldWithPath("keyword").description("검색어(제목 + 내용)").optional(),
-                                                fieldWithPath("stackType").description("기술 스택 포함 검색").optional(),
-                                                fieldWithPath("lastId").description("이전 응답에서 가장 작은 ID 값, 없으면 첫 페이지").optional()
+                                        .pathParameters(
+                                                parameterWithName("size").description("응답 받을 게시글 수").optional(),
+                                                parameterWithName("keyword").description("검색어(제목 + 내용)").optional(),
+                                                parameterWithName("stackType").description("기술 스택 포함 검색").optional(),
+                                                parameterWithName("lastId").description("이전 응답에서 가장 작은 ID 값, 없으면 첫 페이지").optional()
                                         )
                                         .responseFields(
                                             fieldWithPath("recruitBoards[].id").type(JsonFieldType.NUMBER).description("게시글 아이디"),
