@@ -20,6 +20,11 @@ public class RecruitBoardScrollRequest {
     private String keyword;
     private List<StackType> stackTypes;
 
+    public RecruitBoardScrollRequest(Long lastId, int size) {
+        this.lastId = lastId;
+        this.size = size;
+    }
+
     public List<StackType> validateStackTypes() {
         if(this.stackTypes != null && this.stackTypes.contains(null)) {
             throw new InvalidValueException(ErrorCode.STACK_NOT_FOUND);
