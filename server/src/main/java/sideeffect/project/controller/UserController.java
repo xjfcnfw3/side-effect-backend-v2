@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @GetMapping("/mypage/{id}")
-    public UserResponse view(@LoginUser User user, @PathVariable Long id){
+    public UserResponse view(@LoginUser User user, @PathVariable(name = "id") Long id){
         if(id==null) throw new InvalidValueException(ErrorCode.USER_NOT_NULL);
         return userService.findOne(user, id);
     }
@@ -58,18 +58,18 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@LoginUser User user, @PathVariable Long id, @RequestBody UserRequest request){
+    public String update(@LoginUser User user, @PathVariable(name = "id") Long id, @RequestBody UserRequest request){
         userService.update(user, id, request);
         return "update";
     }
     @DeleteMapping("/{id}")
-    public String delete(@LoginUser User user, @PathVariable Long id){
+    public String delete(@LoginUser User user, @PathVariable("id") Long id){
         userService.delete(user, id);
         return "delete success";
     }
 
     @GetMapping("/duple/{nickname}")
-    public Boolean duplicate(@PathVariable String nickname){
+    public Boolean duplicate(@PathVariable(name = "nickname") String nickname){
         return userService.duplicateNickname(nickname);
     }
 
