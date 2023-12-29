@@ -83,7 +83,7 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
         OrderType type = scrollDto.getOrderType();
         Long boardId = scrollDto.getLastId();
         if (type.equals(COMMENT)) {
-            return freeBoard.comments.size().lt(filterNumber).or(sameNumberFilter(type, filterNumber, boardId));
+            return freeBoard.freeComments.comments.size().lt(filterNumber).or(sameNumberFilter(type, filterNumber, boardId));
         } else if (type.equals(LIKE)) {
             return freeBoard.freeBoardLikes.likes.size().lt(filterNumber).or(sameNumberFilter(type, filterNumber, boardId));
         } else if (type.equals(VIEWS)) {
@@ -99,7 +99,7 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
         }
 
         if (type.equals(COMMENT)) {
-            return freeBoard.comments.size().eq(size).and(freeBoard.id.lt(lastId));
+            return freeBoard.freeComments.comments.size().eq(size).and(freeBoard.id.lt(lastId));
         } else if (type.equals(LIKE)) {
             return freeBoard.freeBoardLikes.likes.size().eq(size).and(freeBoard.id.lt(lastId));
         } else if (type.equals(VIEWS)) {
@@ -115,9 +115,9 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
         }
 
         if (orderType.equals(COMMENT)) {
-            return jpaQueryFactory.select(freeBoard.comments.size())
+            return jpaQueryFactory.select(freeBoard.freeComments.comments.size())
                 .from(freeBoard)
-                .leftJoin(freeBoard.comments, comment)
+                .leftJoin(freeBoard.freeComments.comments, comment)
                 .where(freeBoard.id.eq(lastId))
                 .fetchOne();
         } else if (orderType.equals(LIKE)) {
@@ -146,7 +146,7 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
             freeBoard.createAt,
             getLikeExpression(userId),
             freeBoard.freeBoardLikes.likes.size(),
-            freeBoard.comments.size());
+            freeBoard.freeComments.comments.size());
     }
 
     private ConstructorExpression<RankResponse> getRankResponseConstructor(Long userId) {
@@ -160,7 +160,7 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
             freeBoard.createAt,
             getLikeExpression(userId),
             freeBoard.freeBoardLikes.likes.size(),
-            freeBoard.comments.size());
+            freeBoard.freeComments.comments.size());
     }
 
 
@@ -178,7 +178,7 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
         Order order = Order.DESC;
 
         if (orderType.equals(COMMENT)) {
-            return new OrderSpecifier<>(order, freeBoard.comments.size());
+            return new OrderSpecifier<>(order, freeBoard.freeComments.comments.size());
         } else if (orderType.equals(LIKE)) {
             return new OrderSpecifier<>(order, freeBoard.freeBoardLikes.likes.size());
         } else if (orderType.equals(VIEWS)) {

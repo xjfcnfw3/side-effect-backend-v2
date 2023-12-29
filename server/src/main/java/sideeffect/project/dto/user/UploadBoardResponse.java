@@ -127,7 +127,7 @@ public class UploadBoardResponse {
                 .title(freeBoard.getTitle())
                 .content(freeBoard.getContent())
                 .createdAt(freeBoard.getCreateAt())
-                .commentNum(freeBoard.getComments().size())
+                .commentNum(freeBoard.getFreeComments().getCommentNumber())
                 .like(isFreeBoardLiked(user.getId(), freeBoard.getFreeBoardLikes().getLikes()))
                 .likeNum(freeBoard.getFreeBoardLikes().getLikeNumber())
                 .views(freeBoard.getViews())

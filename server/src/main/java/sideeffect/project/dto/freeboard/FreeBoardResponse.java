@@ -44,7 +44,7 @@ public class FreeBoardResponse {
             .subTitle(freeBoard.getSubTitle())
             .imgUrl(freeBoard.getImgUrl())
             .likeNum(freeBoard.getFreeBoardLikes().getLikeNumber())
-            .commentNum(freeBoard.getComments().size())
+            .commentNum(freeBoard.getFreeComments().getCommentNumber())
             .createdAt(freeBoard.getCreateAt())
             .build();
     }

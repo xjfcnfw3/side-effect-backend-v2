@@ -47,7 +47,7 @@ public class DetailedFreeBoardResponse {
             .projectName(freeBoard.getProjectName())
             .imgUrl(freeBoard.getImgUrl())
             .likeNum(freeBoard.getFreeBoardLikes().getLikeNumber())
-            .comments(CommentResponse.listOf(freeBoard.getComments()))
+            .comments(CommentResponse.listOf(freeBoard.getFreeComments().getComments()))
             .createdAt(freeBoard.getCreateAt())
             .build();
         response.like = like;

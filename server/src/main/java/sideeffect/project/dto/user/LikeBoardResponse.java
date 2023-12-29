@@ -114,7 +114,7 @@ public class LikeBoardResponse {
                 .title(freeBoard.getTitle())
                 .content(freeBoard.getContent())
                 .createdAt(freeBoard.getCreateAt())
-                .commentNum(freeBoard.getComments().size())
+                .commentNum(freeBoard.getFreeComments().getCommentNumber())
                 .like(true)
                 .likeNum(freeBoard.getFreeBoardLikes().getLikeNumber())
                 .views(freeBoard.getViews())
