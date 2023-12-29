@@ -27,17 +27,17 @@ public class NotificationController {
     }
 
     @PostMapping("/{id}")
-    public String watch(@LoginUser User user, @PathVariable Long id){
+    public String watch(@LoginUser User user, @PathVariable(name = "id") Long id){
         return notificationService.watch(user, id);
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@LoginUser User user, @PathVariable Long id){
+    public String delete(@LoginUser User user, @PathVariable(name = "id") Long id){
         return notificationService.delete(user, id);
     }
 
     @GetMapping("/scroll/{lastId}")
-    public NotificationScrollResponse scroll(@LoginUser User user, @PathVariable Long lastId){
+    public NotificationScrollResponse scroll(@LoginUser User user, @PathVariable(name = "lastId") Long lastId){
         return notificationService.scroll(user, lastId);
     }
 
