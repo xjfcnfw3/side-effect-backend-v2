@@ -2,6 +2,7 @@ package sideeffect.project.domain.freeboard;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,9 +16,7 @@ import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +25,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import sideeffect.project.common.domain.BaseTimeEntity;
 import sideeffect.project.domain.comment.Comment;
+import sideeffect.project.domain.like.FreeBoardLikes;
 import sideeffect.project.domain.like.Like;
 import sideeffect.project.domain.user.User;
 
@@ -75,9 +75,9 @@ public class FreeBoard extends BaseTimeEntity {
     @OrderBy("id desc")
     private List<Comment> comments;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "freeBoard", orphanRemoval = true,
-        cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<Like> likes;
+
+    @Embedded
+    private FreeBoardLikes freeBoardLikes;
 
     private boolean deleted;
 
@@ -92,7 +92,7 @@ public class FreeBoard extends BaseTimeEntity {
         this.imgUrl = imgUrl;
         this.projectName = projectName;
         this.comments = new ArrayList<>();
-        this.likes = new HashSet<>();
+        this.freeBoardLikes = new FreeBoardLikes();
         this.subTitle = subTitle;
     }
 
@@ -143,10 +143,10 @@ public class FreeBoard extends BaseTimeEntity {
     }
 
     public void addLike(Like like) {
-        this.likes.add(like);
+        this.freeBoardLikes.addLike(like);
     }
 
     public void deleteLike(Like like) {
-        this.likes.remove(like);
+        this.freeBoardLikes.deleteLike(like);
     }
 }

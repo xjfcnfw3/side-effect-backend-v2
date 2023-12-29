@@ -1,7 +1,7 @@
 package sideeffect.project.domain.like;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +37,7 @@ class LikeTest {
 
         assertAll(
             () -> assertThat(user.getLikes()).containsExactly(like),
-            () -> assertThat(freeBoard.getLikes()).containsExactly(like),
+            () -> assertThat(freeBoard.getFreeBoardLikes().getLikes()).containsExactly(like),
             () -> assertThat(like.getFreeBoard()).isEqualTo(freeBoard),
             () -> assertThat(like.getUser()).isEqualTo(user)
         );

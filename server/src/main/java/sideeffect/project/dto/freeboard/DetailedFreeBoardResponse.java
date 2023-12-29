@@ -46,7 +46,7 @@ public class DetailedFreeBoardResponse {
             .projectUrl(freeBoard.getProjectUrl())
             .projectName(freeBoard.getProjectName())
             .imgUrl(freeBoard.getImgUrl())
-            .likeNum(freeBoard.getLikes().size())
+            .likeNum(freeBoard.getFreeBoardLikes().getLikeNumber())
             .comments(CommentResponse.listOf(freeBoard.getComments()))
             .createdAt(freeBoard.getCreateAt())
             .build();
