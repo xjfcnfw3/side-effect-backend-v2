@@ -1,11 +1,7 @@
 package sideeffect.project.domain.freeboard;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -14,8 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
@@ -23,9 +17,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 import sideeffect.project.common.domain.BaseTimeEntity;
 import sideeffect.project.domain.comment.Comment;
+import sideeffect.project.domain.comment.FreeComments;
+import sideeffect.project.domain.like.FreeBoardLikes;
 import sideeffect.project.domain.like.Like;
 import sideeffect.project.domain.user.User;
 
@@ -42,7 +38,7 @@ import sideeffect.project.domain.user.User;
     }
 )
 @SQLDelete(sql = "UPDATE free_boards SET deleted=true WHERE free_board_id=?")
-@Where(clause = "deleted = false")
+@SQLRestriction("deleted = false")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FreeBoard extends BaseTimeEntity {
 
@@ -70,14 +66,11 @@ public class FreeBoard extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "freeBoard", orphanRemoval = true,
-        cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @OrderBy("id desc")
-    private List<Comment> comments;
+    @Embedded
+    private FreeComments freeComments;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "freeBoard", orphanRemoval = true,
-        cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<Like> likes;
+    @Embedded
+    private FreeBoardLikes freeBoardLikes;
 
     private boolean deleted;
 
@@ -91,8 +84,8 @@ public class FreeBoard extends BaseTimeEntity {
         this.content = content;
         this.imgUrl = imgUrl;
         this.projectName = projectName;
-        this.comments = new ArrayList<>();
-        this.likes = new HashSet<>();
+        this.freeComments = new FreeComments();
+        this.freeBoardLikes = new FreeBoardLikes();
         this.subTitle = subTitle;
     }
 
@@ -135,18 +128,18 @@ public class FreeBoard extends BaseTimeEntity {
     }
 
     public void addComment(Comment comment) {
-        this.comments.add(comment);
+        this.freeComments.addComment(comment);
     }
 
     public void deleteComment(Comment comment) {
-        this.comments.remove(comment);
+        this.freeComments.deleteComment(comment);
     }
 
     public void addLike(Like like) {
-        this.likes.add(like);
+        this.freeBoardLikes.addLike(like);
     }
 
     public void deleteLike(Like like) {
-        this.likes.remove(like);
+        this.freeBoardLikes.deleteLike(like);
     }
 }

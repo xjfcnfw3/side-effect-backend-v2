@@ -1,7 +1,7 @@
 package sideeffect.project.domain.comment;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -55,7 +55,7 @@ class CommentTest {
             () -> assertThat(comment.getFreeBoard()).isEqualTo(freeBoard),
             () -> assertThat(comment.getUser()).isEqualTo(user),
             () -> assertThat(user.getComments()).contains(comment),
-            () -> assertThat(freeBoard.getComments()).contains(comment)
+            () -> assertThat(freeBoard.getFreeComments().getComments()).contains(comment)
         );
     }
 }

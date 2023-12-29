@@ -43,8 +43,8 @@ public class FreeBoardResponse {
             .views(freeBoard.getViews())
             .subTitle(freeBoard.getSubTitle())
             .imgUrl(freeBoard.getImgUrl())
-            .likeNum(freeBoard.getLikes().size())
-            .commentNum(freeBoard.getComments().size())
+            .likeNum(freeBoard.getFreeBoardLikes().getLikeNumber())
+            .commentNum(freeBoard.getFreeComments().getCommentNumber())
             .createdAt(freeBoard.getCreateAt())
             .build();
     }

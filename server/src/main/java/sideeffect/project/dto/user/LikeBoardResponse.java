@@ -1,6 +1,16 @@
 package sideeffect.project.dto.user;
 
-import lombok.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import sideeffect.project.domain.freeboard.FreeBoard;
 import sideeffect.project.domain.like.Like;
 import sideeffect.project.domain.like.RecruitLike;
@@ -10,13 +20,6 @@ import sideeffect.project.domain.recruit.BoardStack;
 import sideeffect.project.domain.recruit.RecruitBoard;
 import sideeffect.project.domain.stack.StackType;
 import sideeffect.project.domain.user.User;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -111,9 +114,9 @@ public class LikeBoardResponse {
                 .title(freeBoard.getTitle())
                 .content(freeBoard.getContent())
                 .createdAt(freeBoard.getCreateAt())
-                .commentNum(freeBoard.getComments().size())
+                .commentNum(freeBoard.getFreeComments().getCommentNumber())
                 .like(true)
-                .likeNum(freeBoard.getLikes().size())
+                .likeNum(freeBoard.getFreeBoardLikes().getLikeNumber())
                 .views(freeBoard.getViews())
                 .imgUrl(freeBoard.getImgUrl())
                 .build();
