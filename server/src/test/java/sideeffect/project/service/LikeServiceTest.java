@@ -16,8 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import sideeffect.project.domain.freeboard.FreeBoard;
 import sideeffect.project.domain.like.Like;
 import sideeffect.project.domain.user.User;
-import sideeffect.project.dto.like.LikeResult;
 import sideeffect.project.dto.like.LikeResponse;
+import sideeffect.project.dto.like.LikeResult;
 import sideeffect.project.repository.FreeBoardRepository;
 import sideeffect.project.repository.LikeRepository;
 
@@ -79,6 +79,7 @@ class LikeServiceTest {
     @Test
     void cancelLike() {
         when(likeRepository.searchLike(any(), any())).thenReturn(Optional.of(like));
+        when(freeBoardRepository.findById(any())).thenReturn(Optional.of(freeBoard));
 
         LikeResponse response = likeService.toggleLike(user, freeBoard.getId());
 

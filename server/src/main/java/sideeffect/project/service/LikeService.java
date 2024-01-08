@@ -9,8 +9,8 @@ import sideeffect.project.common.exception.ErrorCode;
 import sideeffect.project.domain.freeboard.FreeBoard;
 import sideeffect.project.domain.like.Like;
 import sideeffect.project.domain.user.User;
-import sideeffect.project.dto.like.LikeResult;
 import sideeffect.project.dto.like.LikeResponse;
+import sideeffect.project.dto.like.LikeResult;
 import sideeffect.project.repository.FreeBoardRepository;
 import sideeffect.project.repository.LikeRepository;
 
@@ -27,7 +27,7 @@ public class LikeService {
 
         if (recommend.isPresent()) {
             Like likeFound = recommend.get();
-            cancelLike(likeFound);
+            cancelLike(likeFound, boardId);
             return LikeResponse.of(likeFound, LikeResult.CANCEL_LIKE);
         }
 
@@ -37,10 +37,14 @@ public class LikeService {
     private Like likeBoard(User user, Long boardId) {
         FreeBoard board = freeBoardRepository.findById(boardId)
             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FREE_BOARD_NOT_FOUND));
+        board.increaseLikeNumber();
         return likeRepository.save(Like.like(user, board));
     }
 
-    private void cancelLike(Like like) {
+    private void cancelLike(Like like, Long boardId) {
+        FreeBoard board = freeBoardRepository.findById(boardId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FREE_BOARD_NOT_FOUND));
+        board.decreaseLikeNumber();
         likeRepository.delete(like);
     }
 }
