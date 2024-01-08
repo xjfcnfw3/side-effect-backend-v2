@@ -16,8 +16,11 @@ public class FreeBoardLikes {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Like> likes;
 
+    private Integer likeNumber;
+
     public FreeBoardLikes() {
         this.likes = new HashSet<>();
+        this.likeNumber = 0;
     }
 
     public void addLike(Like like) {
@@ -30,5 +33,13 @@ public class FreeBoardLikes {
 
     public int getLikeNumber() {
         return likes.size();
+    }
+
+    public void increaseLikeNumber() {
+        this.likeNumber++;
+    }
+
+    public void decreaseLikeNumber() {
+        this.likeNumber--;
     }
 }
