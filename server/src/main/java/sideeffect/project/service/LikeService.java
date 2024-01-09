@@ -37,14 +37,12 @@ public class LikeService {
     private Like likeBoard(User user, Long boardId) {
         FreeBoard board = freeBoardRepository.findById(boardId)
             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FREE_BOARD_NOT_FOUND));
-        board.increaseLikeNumber();
         return likeRepository.save(Like.like(user, board));
     }
 
     private void cancelLike(Like like, Long boardId) {
         FreeBoard board = freeBoardRepository.findById(boardId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FREE_BOARD_NOT_FOUND));
-        board.decreaseLikeNumber();
-        likeRepository.delete(like);
+        board.deleteLike(like);
     }
 }

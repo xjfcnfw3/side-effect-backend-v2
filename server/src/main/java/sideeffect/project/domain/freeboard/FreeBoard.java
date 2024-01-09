@@ -140,10 +140,12 @@ public class FreeBoard extends BaseTimeEntity {
 
     public void addLike(Like like) {
         this.freeBoardLikes.addLike(like);
+        this.freeBoardLikes.increaseLikeNumber();
     }
 
     public void deleteLike(Like like) {
         this.freeBoardLikes.deleteLike(like);
+        this.freeBoardLikes.decreaseLikeNumber();
     }
 
     public void decreaseLikeNumber() {
@@ -152,5 +154,9 @@ public class FreeBoard extends BaseTimeEntity {
 
     public void increaseLikeNumber() {
         this.freeBoardLikes.increaseLikeNumber();
+    }
+
+    public Integer getLikeNumber() {
+        return this.freeBoardLikes.getLikeNumber();
     }
 }

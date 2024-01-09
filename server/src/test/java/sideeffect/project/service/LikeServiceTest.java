@@ -61,6 +61,7 @@ class LikeServiceTest {
     @DisplayName("유저가 게시판을 추천한다.")
     @Test
     void likeBoard() {
+        int likeNumber = freeBoard.getFreeBoardLikes().getLikeNumber();
         when(likeRepository.searchLike(any(), any())).thenReturn(Optional.empty());
         when(freeBoardRepository.findById(any())).thenReturn(Optional.of(freeBoard));
         when(likeRepository.save(any())).thenReturn(like);
@@ -68,25 +69,27 @@ class LikeServiceTest {
         LikeResponse response = likeService.toggleLike(user, freeBoard.getId());
 
         assertAll(
-            () -> verify(likeRepository).searchLike(any(), any()),
-            () -> verify(freeBoardRepository).findById(any()),
-            () -> verify(likeRepository).save(any()),
-            () -> assertThat(response.getMessage()).isEqualTo(LikeResult.LIKE.getMessage())
+                () -> verify(likeRepository).searchLike(any(), any()),
+                () -> verify(freeBoardRepository).findById(any()),
+                () -> verify(likeRepository).save(any()),
+                () -> assertThat(response.getMessage()).isEqualTo(LikeResult.LIKE.getMessage()),
+                () -> assertThat(freeBoard.getFreeBoardLikes().getLikeNumber()).isEqualTo(likeNumber + 1)
         );
     }
 
     @DisplayName("유저가 게시판 추천을 취소한다.")
     @Test
     void cancelLike() {
+        int likeNumber = freeBoard.getFreeBoardLikes().getLikeNumber();
         when(likeRepository.searchLike(any(), any())).thenReturn(Optional.of(like));
         when(freeBoardRepository.findById(any())).thenReturn(Optional.of(freeBoard));
 
         LikeResponse response = likeService.toggleLike(user, freeBoard.getId());
 
         assertAll(
-            () -> verify(likeRepository).searchLike(any(), any()),
-            () -> assertThat(response.getMessage()).isEqualTo(LikeResult.CANCEL_LIKE.getMessage()),
-            () -> verify(likeRepository).delete(any())
+                () -> verify(likeRepository).searchLike(any(), any()),
+                () -> assertThat(response.getMessage()).isEqualTo(LikeResult.CANCEL_LIKE.getMessage()),
+                () -> assertThat(freeBoard.getFreeBoardLikes().getLikeNumber()).isEqualTo(likeNumber - 1)
         );
     }
 }
