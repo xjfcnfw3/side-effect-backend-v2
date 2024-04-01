@@ -36,10 +36,16 @@ public class FreeBoardLikes {
     }
 
     public void increaseLikeNumber() {
+        if (likeNumber == null) {
+            likeNumber = getLikes().size();
+        }
         this.likeNumber++;
     }
 
     public void decreaseLikeNumber() {
+        if (likeNumber == null) {
+            likeNumber = getLikes().size();
+        }
         this.likeNumber--;
     }
 }
