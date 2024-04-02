@@ -48,6 +48,7 @@ public class WebSecurityConfig{
                         authorize
                                 .requestMatchers("/api/user/join", "/api/user/mypage/**", "/api/user/duple/**", "/api/social/login")
                                 .permitAll()
+                                .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/token/at-issue/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/**").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/api/free-boards/**").permitAll()
