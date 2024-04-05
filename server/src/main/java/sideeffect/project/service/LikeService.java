@@ -35,13 +35,13 @@ public class LikeService {
     }
 
     private Like likeBoard(User user, Long boardId) {
-        FreeBoard board = freeBoardRepository.findById(boardId)
+        FreeBoard board = freeBoardRepository.searchBoardFetchJoin(boardId)
             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FREE_BOARD_NOT_FOUND));
         return likeRepository.save(Like.like(user, board));
     }
 
     private void cancelLike(Like like, Long boardId) {
-        FreeBoard board = freeBoardRepository.findById(boardId)
+        FreeBoard board = freeBoardRepository.searchBoardFetchJoin(boardId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FREE_BOARD_NOT_FOUND));
         board.deleteLike(like);
     }

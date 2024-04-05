@@ -1,5 +1,12 @@
 package sideeffect.project.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,26 +22,15 @@ import sideeffect.project.dto.like.RecruitLikeResponse;
 import sideeffect.project.repository.RecruitBoardRepository;
 import sideeffect.project.repository.RecruitLikeRepository;
 
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 public class RecruitLikeServiceTest {
 
-    @InjectMocks
-    private RecruitLikeService recruitLikeService;
-
     @Mock
     RecruitLikeRepository recruitLikeRepository;
-
     @Mock
     RecruitBoardRepository recruitBoardRepository;
-
+    @InjectMocks
+    private RecruitLikeService recruitLikeService;
     private User user;
     private RecruitBoard recruitBoard;
     private RecruitLike recruitLike;
@@ -71,7 +67,7 @@ public class RecruitLikeServiceTest {
                 () -> verify(recruitLikeRepository).findByUserIdAndRecruitBoardId(any(), any()),
                 () -> verify(recruitBoardRepository).findById(any()),
                 () -> verify(recruitLikeRepository).save(any()),
-                () -> assertThat(response.getMessage()).isEqualTo(LikeResult.LIKE.getMessage()),
+                () -> assertThat(response.message()).isEqualTo(LikeResult.LIKE.getMessage()),
                 () -> assertThat(recruitBoard.getRecruitLikes()).contains(recruitLike)
         );
     }
@@ -85,7 +81,7 @@ public class RecruitLikeServiceTest {
 
         assertAll(
                 () -> verify(recruitLikeRepository).findByUserIdAndRecruitBoardId(any(), any()),
-                () -> assertThat(response.getMessage()).isEqualTo(LikeResult.CANCEL_LIKE.getMessage())
+                () -> assertThat(response.message()).isEqualTo(LikeResult.CANCEL_LIKE.getMessage())
         );
     }
 

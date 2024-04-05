@@ -72,7 +72,7 @@ class LikeServiceTest {
                 () -> verify(likeRepository).searchLike(any(), any()),
                 () -> verify(freeBoardRepository).findById(any()),
                 () -> verify(likeRepository).save(any()),
-                () -> assertThat(response.getMessage()).isEqualTo(LikeResult.LIKE.getMessage()),
+                () -> assertThat(response.message()).isEqualTo(LikeResult.LIKE.getMessage()),
                 () -> assertThat(freeBoard.getFreeBoardLikes().getLikeNumber()).isEqualTo(likeNumber + 1)
         );
     }
@@ -88,7 +88,7 @@ class LikeServiceTest {
 
         assertAll(
                 () -> verify(likeRepository).searchLike(any(), any()),
-                () -> assertThat(response.getMessage()).isEqualTo(LikeResult.CANCEL_LIKE.getMessage()),
+                () -> assertThat(response.message()).isEqualTo(LikeResult.CANCEL_LIKE.getMessage()),
                 () -> assertThat(freeBoard.getFreeBoardLikes().getLikeNumber()).isEqualTo(likeNumber - 1)
         );
     }

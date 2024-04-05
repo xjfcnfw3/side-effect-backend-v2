@@ -1,16 +1,10 @@
 package sideeffect.project.dto.like;
 
-import lombok.*;
+import lombok.Builder;
 import sideeffect.project.domain.like.RecruitLike;
 
-@Getter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RecruitLikeResponse {
-    private Long recruitBoardId;
-    private String userNickname;
-    private String message;
+public record RecruitLikeResponse(Long recruitBoardId, String userNickname, String message) {
 
     public static RecruitLikeResponse of(RecruitLike recruitLike, LikeResult message) {
         return RecruitLikeResponse.builder()
