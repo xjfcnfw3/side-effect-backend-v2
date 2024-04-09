@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import sideeffect.project.domain.like.Like;
+import sideeffect.project.domain.user.User;
 
 @Getter
 @Builder
@@ -16,11 +16,11 @@ public class LikeResponse {
     private String userNickname;
     private String message;
 
-    public static LikeResponse of(Like like, LikeResult message) {
+    public static LikeResponse of(User user, Long boardId, LikeResult message) {
         return LikeResponse.builder()
-            .boardId(like.getFreeBoard().getId())
-            .userNickname(like.getUser().getNickname())
-            .message(message.getMessage())
-            .build();
+                .userNickname(user.getNickname())
+                .boardId(boardId)
+                .message(message.getMessage())
+                .build();
     }
 }
