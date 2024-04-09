@@ -28,7 +28,7 @@ public class LikeService {
         if (recommend.isPresent()) {
             Like likeFound = recommend.get();
             cancelLike(likeFound, boardId);
-            return LikeResponse.of(user.getNickname(), boardId, LikeResult.CANCEL_LIKE);
+            return LikeResponse.of(user, boardId, LikeResult.CANCEL_LIKE);
         }
 
         likeBoard(user, boardId);
