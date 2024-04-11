@@ -4,11 +4,11 @@ import lombok.Builder;
 import sideeffect.project.domain.user.User;
 
 @Builder
-public record LikeResponse(Long boardId, String userNickname, String message) {
+public record LikeResponse(Long boardId, long userId, String message) {
     public static LikeResponse of(User user, Long boardId, LikeResult message) {
         return LikeResponse.builder()
             .boardId(boardId)
-            .userNickname(user.getNickname())
+            .userId(user.getId())
             .message(message.getMessage())
             .build();
     }
