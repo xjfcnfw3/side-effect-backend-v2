@@ -28,16 +28,17 @@ public class LikeService {
         if (recommend.isPresent()) {
             Like likeFound = recommend.get();
             cancelLike(likeFound, boardId);
-            return LikeResponse.of(likeFound, LikeResult.CANCEL_LIKE);
+            return LikeResponse.of(user, boardId, LikeResult.CANCEL_LIKE);
         }
 
-        return LikeResponse.of(likeBoard(user, boardId), LikeResult.LIKE);
+        likeBoard(user, boardId);
+        return LikeResponse.of(user, boardId, LikeResult.LIKE);
     }
 
-    private Like likeBoard(User user, Long boardId) {
+    private void likeBoard(User user, Long boardId) {
         FreeBoard board = freeBoardRepository.searchBoardFetchJoin(boardId)
             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FREE_BOARD_NOT_FOUND));
-        return likeRepository.save(Like.like(user, board));
+        likeRepository.save(Like.like(user, board));
     }
 
     private void cancelLike(Like like, Long boardId) {
