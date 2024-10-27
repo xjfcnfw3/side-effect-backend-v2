@@ -5,7 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -18,8 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import sideeffect.project.common.docs.ControllerTestDocument;
 import sideeffect.project.common.docs.freeBoard.FreeBoardLikeDocsUtils;
 import sideeffect.project.common.security.WithCustomUser;
-import sideeffect.project.domain.freeboard.FreeBoard;
-import sideeffect.project.domain.like.Like;
 import sideeffect.project.domain.user.User;
 import sideeffect.project.dto.like.LikeResponse;
 import sideeffect.project.dto.like.LikeResult;
@@ -37,9 +34,8 @@ class LikeControllerTest extends ControllerTestDocument {
     @Test
     void like() throws Exception {
         User user = getUser();
-        FreeBoard freeBoard = FreeBoard.builder().id(1L).build();
-        Like like = Like.like(user, freeBoard);
-        when(likeService.toggleLike(any(), any())).thenReturn(LikeResponse.of(like, LikeResult.LIKE));
+        LikeResponse response = LikeResponse.of(user, 1L, LikeResult.LIKE);
+        when(likeService.toggleLike(any(), any())).thenReturn(response);
 
         mvc.perform(RestDocumentationRequestBuilders.post("/api/like/{id}", 1L)
                 .with(csrf()))

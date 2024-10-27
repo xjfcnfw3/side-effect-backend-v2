@@ -36,7 +36,6 @@ class LikeTest {
         Like like = Like.like(user, freeBoard);
 
         assertAll(
-            () -> assertThat(user.getLikes()).containsExactly(like),
             () -> assertThat(freeBoard.getFreeBoardLikes().getLikes()).containsExactly(like),
             () -> assertThat(like.getFreeBoard()).isEqualTo(freeBoard),
             () -> assertThat(like.getUser()).isEqualTo(user)

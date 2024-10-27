@@ -21,7 +21,7 @@ public final class FreeBoardLikeDocsUtils {
                 .pathParameters(parameterWithName("id").description("자랑게시판 id"))
                 .responseFields(
                     fieldWithPath("boardId").type(JsonFieldType.NUMBER).description("게시판 아이디"),
-                    fieldWithPath("userNickname").type(JsonFieldType.STRING).description("좋아요 유저 닉네임"),
+                    fieldWithPath("userId").type(JsonFieldType.NUMBER).description("좋아요 유저 아이디"),
                     fieldWithPath("message").type(JsonFieldType.STRING).description("메시지")
                 )
                 .build());

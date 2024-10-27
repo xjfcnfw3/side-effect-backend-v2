@@ -63,14 +63,14 @@ class LikeServiceTest {
     void likeBoard() {
         int likeNumber = freeBoard.getFreeBoardLikes().getLikeNumber();
         when(likeRepository.searchLike(any(), any())).thenReturn(Optional.empty());
-        when(freeBoardRepository.findById(any())).thenReturn(Optional.of(freeBoard));
+        when(freeBoardRepository.searchBoardFetchJoin(any())).thenReturn(Optional.of(freeBoard));
         when(likeRepository.save(any())).thenReturn(like);
 
         LikeResponse response = likeService.toggleLike(user, freeBoard.getId());
 
         assertAll(
                 () -> verify(likeRepository).searchLike(any(), any()),
-                () -> verify(freeBoardRepository).findById(any()),
+                () -> verify(freeBoardRepository).searchBoardFetchJoin(any()),
                 () -> verify(likeRepository).save(any()),
                 () -> assertThat(response.message()).isEqualTo(LikeResult.LIKE.getMessage()),
                 () -> assertThat(freeBoard.getFreeBoardLikes().getLikeNumber()).isEqualTo(likeNumber + 1)
@@ -82,7 +82,7 @@ class LikeServiceTest {
     void cancelLike() {
         int likeNumber = freeBoard.getFreeBoardLikes().getLikeNumber();
         when(likeRepository.searchLike(any(), any())).thenReturn(Optional.of(like));
-        when(freeBoardRepository.findById(any())).thenReturn(Optional.of(freeBoard));
+        when(freeBoardRepository.searchBoardFetchJoin(any())).thenReturn(Optional.of(freeBoard));
 
         LikeResponse response = likeService.toggleLike(user, freeBoard.getId());
 

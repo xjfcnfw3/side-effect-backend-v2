@@ -1,5 +1,13 @@
 package sideeffect.project.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
+
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,15 +24,6 @@ import sideeffect.project.domain.user.UserRoleType;
 import sideeffect.project.dto.notification.NotificationResponse;
 import sideeffect.project.dto.notification.NotificationScrollResponse;
 import sideeffect.project.repository.NotificationRepository;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class NotificationServiceTest {
@@ -52,13 +51,10 @@ class NotificationServiceTest {
                 .githubUrl("github/tlsrl6427")
                 .portfolioUrl("naver.com/tlsrl6427")
                 .userRoleType(UserRoleType.ROLE_USER)
-                .notifications(List.of(
-                        new Notification(1L, "제목1", "내용1", "", false, user, user, NotificationType.APPROVE),
-                        new Notification(2L, "제목2", "내용2", "", false, user, user, NotificationType.APPROVE),
-                        new Notification(3L, "제목3", "내용3", "", true, user, user, NotificationType.APPROVE)
-                ))
                 .build();
-
+        user.addNotification(new Notification(1L, "제목1", "내용1", "", false, user, user, NotificationType.APPROVE));
+        user.addNotification(new Notification(2L, "제목2", "내용2", "", false, user, user, NotificationType.APPROVE));
+        user.addNotification(new Notification(3L, "제목3", "내용3", "", true, user, user, NotificationType.APPROVE));
         notification = Notification.builder()
                 .id(1L)
                 .title("제목")
