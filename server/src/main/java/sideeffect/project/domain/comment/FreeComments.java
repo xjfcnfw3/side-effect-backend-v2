@@ -18,6 +18,8 @@ public class FreeComments {
     @OrderBy("id desc")
     private List<Comment> comments;
 
+    private Integer commentsNumber;
+
     public FreeComments() {
         this.comments = new ArrayList<>();
     }
@@ -32,5 +34,20 @@ public class FreeComments {
 
     public int getCommentNumber() {
         return this.comments.size();
+    }
+
+
+    public void increaseLikeNumber() {
+        if (commentsNumber == null) {
+            commentsNumber = comments.size();
+        }
+        this.commentsNumber++;
+    }
+
+    public void decreaseLikeNumber() {
+        if (commentsNumber == null) {
+            commentsNumber = comments.size();
+        }
+        this.commentsNumber--;
     }
 }

@@ -70,7 +70,7 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
             .from(freeBoard)
             .leftJoin(freeBoard.freeBoardLikes.likes, like)
             .where(like.createdAt.after(LocalDateTime.now().minus(days, chronoUnit)).or(freeBoard.freeBoardLikes.likes.isNotEmpty()))
-            .orderBy(like.count().desc(), freeBoard.freeBoardLikes.likes.size().desc(), freeBoard.views.desc())
+            .orderBy(like.count().desc(), freeBoard.freeBoardLikes.likeNumber.desc(), freeBoard.views.desc())
             .groupBy(freeBoard.id)
             .limit(size)
             .fetch();
@@ -83,9 +83,9 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
         OrderType type = scrollDto.getOrderType();
         Long boardId = scrollDto.getLastId();
         if (type.equals(COMMENT)) {
-            return freeBoard.freeComments.comments.size().lt(filterNumber).or(sameNumberFilter(type, filterNumber, boardId));
+            return freeBoard.freeComments.commentsNumber.lt(filterNumber).or(sameNumberFilter(type, filterNumber, boardId));
         } else if (type.equals(LIKE)) {
-            return freeBoard.freeBoardLikes.likes.size().lt(filterNumber).or(sameNumberFilter(type, filterNumber, boardId));
+            return freeBoard.freeBoardLikes.likeNumber.lt(filterNumber).or(sameNumberFilter(type, filterNumber, boardId));
         } else if (type.equals(VIEWS)) {
             return freeBoard.views.lt(filterNumber).or(sameNumberFilter(type, filterNumber, boardId));
         }
@@ -99,9 +99,9 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
         }
 
         if (type.equals(COMMENT)) {
-            return freeBoard.freeComments.comments.size().eq(size).and(freeBoard.id.lt(lastId));
+            return freeBoard.freeComments.commentsNumber.eq(size).and(freeBoard.id.lt(lastId));
         } else if (type.equals(LIKE)) {
-            return freeBoard.freeBoardLikes.likes.size().eq(size).and(freeBoard.id.lt(lastId));
+            return freeBoard.freeBoardLikes.likeNumber.eq(size).and(freeBoard.id.lt(lastId));
         } else if (type.equals(VIEWS)) {
             return freeBoard.views.eq(size).and(freeBoard.id.lt(lastId));
         }
@@ -115,13 +115,13 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
         }
 
         if (orderType.equals(COMMENT)) {
-            return jpaQueryFactory.select(freeBoard.freeComments.comments.size())
+            return jpaQueryFactory.select(freeBoard.freeComments.commentsNumber)
                 .from(freeBoard)
                 .leftJoin(freeBoard.freeComments.comments, comment)
                 .where(freeBoard.id.eq(lastId))
                 .fetchOne();
         } else if (orderType.equals(LIKE)) {
-            return jpaQueryFactory.select(freeBoard.freeBoardLikes.likes.size())
+            return jpaQueryFactory.select(freeBoard.freeBoardLikes.likeNumber)
                 .from(freeBoard)
                 .leftJoin(freeBoard.freeBoardLikes.likes, like)
                 .where(freeBoard.id.eq(lastId))
@@ -145,8 +145,8 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
             freeBoard.title,
             freeBoard.createAt,
             getLikeExpression(userId),
-            freeBoard.freeBoardLikes.likes.size(),
-            freeBoard.freeComments.comments.size());
+            freeBoard.freeBoardLikes.likeNumber,
+            freeBoard.freeComments.commentsNumber);
     }
 
     private ConstructorExpression<RankResponse> getRankResponseConstructor(Long userId) {
@@ -159,8 +159,8 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
             freeBoard.title,
             freeBoard.createAt,
             getLikeExpression(userId),
-            freeBoard.freeBoardLikes.likes.size(),
-            freeBoard.freeComments.comments.size());
+            freeBoard.freeBoardLikes.likeNumber,
+            freeBoard.freeComments.commentsNumber);
     }
 
 
@@ -178,9 +178,9 @@ public class FreeBoardRepositoryImpl implements FreeBoardRepositoryCustom {
         Order order = Order.DESC;
 
         if (orderType.equals(COMMENT)) {
-            return new OrderSpecifier<>(order, freeBoard.freeComments.comments.size());
+            return new OrderSpecifier<>(order, freeBoard.freeComments.commentsNumber);
         } else if (orderType.equals(LIKE)) {
-            return new OrderSpecifier<>(order, freeBoard.freeBoardLikes.likes.size());
+            return new OrderSpecifier<>(order, freeBoard.freeBoardLikes.likeNumber);
         } else if (orderType.equals(VIEWS)) {
             return new OrderSpecifier<>(order, freeBoard.views);
         }
