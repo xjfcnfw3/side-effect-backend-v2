@@ -25,7 +25,7 @@ public class CommentService {
 
     @Transactional
     public CommentResponse registerComment(CommentRequest request, User user) {
-        FreeBoard freeBoard = findFreeBoard(request);
+        FreeBoard freeBoard = findFreeBoard(request.getBoardId());
         Comment comment = request.toComment();
         comment.associate(user, freeBoard);
         return CommentResponse.of(commentRepository.save(comment));
@@ -47,8 +47,9 @@ public class CommentService {
     @Transactional
     public void delete(Long userId, Long commentId) {
         Comment comment = findComment(commentId);
+        FreeBoard freeBoard = findFreeBoard(comment.getFreeBoard().getId());
         validateOwner(userId, comment.getUser().getId());
-        commentRepository.delete(comment);
+        freeBoard.deleteComment(comment);
     }
 
     private void validateOwner(Long userId, Long ownerId) {
@@ -57,8 +58,8 @@ public class CommentService {
         }
     }
 
-    private FreeBoard findFreeBoard(CommentRequest request) {
-        return freeBoardRepository.findById(request.getBoardId())
+    private FreeBoard findFreeBoard(Long id) {
+        return freeBoardRepository.searchBoardByFetchJoinWithComments(id)
             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FREE_BOARD_NOT_FOUND));
     }
 

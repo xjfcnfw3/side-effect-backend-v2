@@ -132,10 +132,12 @@ public class FreeBoard extends BaseTimeEntity {
 
     public void addComment(Comment comment) {
         this.freeComments.addComment(comment);
+        this.freeComments.increaseCommentNumber();
     }
 
     public void deleteComment(Comment comment) {
         this.freeComments.deleteComment(comment);
+        this.freeComments.decreaseCommentNumber();
     }
 
     public void addLike(Like like) {

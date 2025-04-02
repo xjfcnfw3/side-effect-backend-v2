@@ -37,14 +37,14 @@ public class FreeComments {
     }
 
 
-    public void increaseLikeNumber() {
+    public void increaseCommentNumber() {
         if (commentsNumber == null) {
             commentsNumber = comments.size();
         }
         this.commentsNumber++;
     }
 
-    public void decreaseLikeNumber() {
+    public void decreaseCommentNumber() {
         if (commentsNumber == null) {
             commentsNumber = comments.size();
         }

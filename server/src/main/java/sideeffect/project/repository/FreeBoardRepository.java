@@ -17,7 +17,13 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long>, Fre
 
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT b from FreeBoard b "
-        + "left outer join fetch b.freeBoardLikes.likes "
-        + "where b.id = :boardId")
+            + "left outer join fetch b.freeBoardLikes.likes "
+            + "where b.id = :boardId")
     Optional<FreeBoard> searchBoardFetchJoin(@Param("boardId") Long boardId);
+
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT b from FreeBoard b "
+            + "left outer join fetch b.freeComments.comments "
+            + "where b.id = :boardId")
+    Optional<FreeBoard> searchBoardByFetchJoinWithComments(@Param("boardId") Long boardId);
 }
